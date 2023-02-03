@@ -17,10 +17,10 @@ export default function Home() {
   return (
     <HomePage>
       <Header />
-      <Folder1 selected={selected} updateSelected={updateSelected} />
-      <Folder2 selected={selected} updateSelected={updateSelected} />
       <CameraWidget selected={selected} updateSelected={updateSelected} />
       <SnowmanWidget selected={selected} updateSelected={updateSelected} />
+      <Folder1 selected={selected} updateSelected={updateSelected} />
+      <Folder2 selected={selected} updateSelected={updateSelected} />
     </HomePage>
   );
 }
