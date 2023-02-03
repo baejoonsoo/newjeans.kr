@@ -1,4 +1,5 @@
 import { folder1ImgData } from '@/docs/folder1Img';
+import { folder1ImgDataType } from '@/interface/folder1ImgData';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import { useState } from 'react';
@@ -9,12 +10,22 @@ interface props {
 }
 
 const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
-  const [itemData, setItemData] = useState<[string, string]>(['', '']);
+  const [isShowDetailView, setIsShowDetailView] = useState<boolean>(false);
+  const [itemData, setItemData] = useState<folder1ImgDataType>({
+    key: 0,
+    name: '',
+    url: '',
+  });
 
-  const changeItemData = (item: [string, string]) => {
+  const changeItemData = (item: folder1ImgDataType) => {
     setItemData(item);
+    setIsShowDetailView(true);
 
     console.log(item);
+  };
+
+  const closeDetailView = () => {
+    setIsShowDetailView(false);
   };
 
   return (
@@ -27,15 +38,20 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
         <ItemsContainer>
           {folder1ImgData.map((imgData) => (
             <Item
-              key={imgData[0]}
+              key={imgData.key}
               onDoubleClick={() => changeItemData(imgData)}
             >
               <ItemImg />
-              <ImgName>{imgData[0]}</ImgName>
+              <ImgName>{imgData.name}</ImgName>
             </Item>
           ))}
         </ItemsContainer>
       </WindowSection>
+      {isShowDetailView ? (
+        <ImgDetailView itemData={itemData} closeDetailView={closeDetailView} />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
