@@ -104,7 +104,7 @@ const Folder2Window: NextPage<props> = ({ closeWindow }: props) => {
         <WindowHeader
           mouseDown={mouseDown}
           title={`New Folder 2`}
-          closeDetailView={closeDetailView}
+          closeDetailView={closeWindow}
         />
         <ItemsContainer>
           {folder2ItemData.map((videoItem) => (

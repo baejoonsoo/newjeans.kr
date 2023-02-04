@@ -104,7 +104,7 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
         <WindowHeader
           mouseDown={mouseDown}
           title={`New Folder 1`}
-          closeDetailView={closeDetailView}
+          closeDetailView={closeWindow}
         />
         <ItemsContainer>
           {folder1ImgData.map((imgData) => (
