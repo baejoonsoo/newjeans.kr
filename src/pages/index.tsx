@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <HomePage>
-      <Video src="/image/background.mp4" autoPlay loop muted />
+      {/* <Video src="/image/background.mp4" autoPlay loop muted /> */}
       <Header />
       <CameraWidget selected={selected} updateSelected={updateSelected} />
       <SnowmanWidget selected={selected} updateSelected={updateSelected} />
@@ -26,20 +26,25 @@ export default function Home() {
   );
 }
 
-const Video = styled.video`
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  object-fit: cover;
+// const Video = styled.video`
+//   width: 100%;
+//   height: 100%;
+//   z-index: -1;
+//   object-fit: cover;
 
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// `;
 
 const HomePage = styled.main`
   height: 100vh;
   position: relative;
 
   overflow: hidden;
+
+  background-image: url('image/background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
