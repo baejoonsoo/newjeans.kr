@@ -1,44 +1,30 @@
-import { folder1ImgData } from '@/docs/folder1Img';
-import { folder1ImgDataType } from '@/interface/folder1ImgData';
+import { folder2ItemData } from '@/docs/folder2Item';
+import { folder2ItemDataType } from '@/interface/folder2ItemData';
 import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import ImgDetailView from './imgDetailView';
 
 interface props {
   closeWindow: () => void;
 }
 
-const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
+const Folder2Window: NextPage<props> = ({ closeWindow }: props) => {
   const windowRef = useRef<HTMLDivElement>(null);
+  const [point, setPoint] = useState<{ x: number; y: number }>({
+    x: 100,
+    y: 70,
+  });
   const [isShowDetailView, setIsShowDetailView] = useState<boolean>(false);
-  const [itemData, setItemData] = useState<folder1ImgDataType>({
+  const [itemData, setItemData] = useState<folder2ItemDataType>({
     key: 0,
     name: '',
-    url: '',
-  });
-  const [point, setPoint] = useState<{ x: number; y: number }>({
-    x: 50,
-    y: 50,
+    embedId: '',
   });
   const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
   const [zIndex, setZindex] = useState<number>(zIndexRecoil);
-
-  useEffect(() => {
-    setZindexRecoil((pre) => pre + 1);
-  }, []);
-
-  const changeItemData = (item: folder1ImgDataType) => {
-    setItemData(item);
-    setIsShowDetailView(true);
-  };
-
-  const closeDetailView = () => {
-    setIsShowDetailView(false);
-  };
 
   const changeZIndex = () => {
     if (zIndex === zIndexRecoil - 1) return null;
@@ -81,31 +67,33 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
     });
   };
 
+  const changeItemData = (item: folder2ItemDataType) => {
+    setItemData(item);
+    setIsShowDetailView(true);
+  };
+
+  useEffect(() => {
+    setZindexRecoil((pre) => pre + 1);
+  }, []);
+
   return (
-    <>
-      <WindowSection ref={windowRef} x={point.x} y={point.y} zIndex={zIndex}>
-        <WindowTitleWrap onMouseDown={mouseDown}>
-          <WindowTitle>New Folder 1</WindowTitle>
-          <CLoseButton onClick={closeWindow} />
-        </WindowTitleWrap>
-        <ItemsContainer>
-          {folder1ImgData.map((imgData) => (
-            <Item
-              key={imgData.key}
-              onDoubleClick={() => changeItemData(imgData)}
-            >
-              <ItemImg />
-              <ImgName>{imgData.name}</ImgName>
-            </Item>
-          ))}
-        </ItemsContainer>
-      </WindowSection>
-      {isShowDetailView ? (
-        <ImgDetailView itemData={itemData} closeDetailView={closeDetailView} />
-      ) : (
-        <></>
-      )}
-    </>
+    <WindowSection ref={windowRef} x={point.x} y={point.y} zIndex={zIndex}>
+      <WindowTitleWrap onMouseDown={mouseDown}>
+        <WindowTitle>New Folder 2</WindowTitle>
+        <CLoseButton onClick={closeWindow} />
+      </WindowTitleWrap>
+      <ItemsContainer>
+        {folder2ItemData.map((videoItem) => (
+          <Item
+            key={videoItem.key}
+            onDoubleClick={() => changeItemData(videoItem)}
+          >
+            <ItemImg />
+            <ImgName>{videoItem.name}</ImgName>
+          </Item>
+        ))}
+      </ItemsContainer>
+    </WindowSection>
   );
 };
 
@@ -117,7 +105,7 @@ const ItemImg = styled.div`
   width: 72px;
   aspect-ratio: 1;
 
-  background-image: url('/image/icon/imgIcon.png');
+  background-image: url('/image/icon/videoIcon.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 54px 40px;
@@ -141,12 +129,10 @@ const Item = styled.div`
 const ItemsContainer = styled.div`
   width: 100%;
   height: 500px;
-  overflow-y: scroll;
   padding: 5px;
 
   display: flex;
   align-content: flex-start;
-  flex-wrap: wrap;
 `;
 
 const CLoseButton = styled.button`
@@ -210,4 +196,4 @@ const WindowSection = styled.section`
   `}
 `;
 
-export default Folder1Window;
+export default Folder2Window;
