@@ -41,10 +41,21 @@ const Folder2Window: NextPage<props> = ({ closeWindow }: props) => {
     let shiftY = event.clientY - windowRef.current.getBoundingClientRect().top;
 
     const onMouseMove = ({ pageX, pageY }: any) => {
-      setPoint({
-        x: pageX - shiftX,
-        y: pageY - shiftY,
-      });
+      let x = pageX - shiftX;
+      let y = pageY - shiftY;
+
+      if (x < 0) x = 0;
+      if (y < 10) y = 10;
+
+      if (windowRef.current) {
+        const width = window.innerWidth - windowRef.current.clientWidth;
+        const height = window.innerHeight - windowRef.current.clientHeight;
+
+        if (x > width) x = width;
+        if (y > height) y = height;
+      }
+
+      setPoint({ x, y });
     };
 
     windowRef.current.addEventListener('mousemove', onMouseMove);
@@ -201,7 +212,7 @@ const WindowSection = styled.section`
   width: 500px;
   height: 528px;
   background-color: white;
-
+  box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 10px 0px;
   position: absolute;
 
   ${({ x, y, zIndex }: { x: number; y: number; zIndex: number }) => css`

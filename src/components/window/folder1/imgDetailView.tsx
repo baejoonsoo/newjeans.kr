@@ -63,10 +63,21 @@ const ImgDetailView: NextPage<props> = ({
     let shiftY = event.clientY - windowRef.current.getBoundingClientRect().top;
 
     const onMouseMove = ({ pageX, pageY }: any) => {
-      setPoint({
-        x: pageX - shiftX,
-        y: pageY - shiftY,
-      });
+      let x = pageX - shiftX;
+      let y = pageY - shiftY;
+
+      if (x < 0) x = 0;
+      if (y < 10) y = 10;
+
+      if (windowRef.current) {
+        const width = window.innerWidth - windowRef.current.clientWidth;
+        const height = window.innerHeight - windowRef.current.clientHeight;
+
+        if (x > width) x = width;
+        if (y > height) y = height;
+      }
+
+      setPoint({ x, y });
     };
 
     windowRef.current.addEventListener('mousemove', onMouseMove);
@@ -135,7 +146,7 @@ const PrevButton = styled(NextButton)`
 
 const ImgView = styled.div`
   width: 100%;
-  height: 772px;
+  height: 672px;
   padding: 10px;
   background-image: url(${({ img }: { img: string }) => img});
   background-position: center;
@@ -159,9 +170,10 @@ const CLoseButton = styled.button`
 
 const ImgDetailViewContainer = styled.section`
   width: 500px;
-  height: 800px;
+  height: 700px;
 
-  background-color: white;
+  background-color: black;
+  box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 10px 0px;
 
   position: absolute;
   top: 60px;
