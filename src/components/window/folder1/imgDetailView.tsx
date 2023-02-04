@@ -1,3 +1,4 @@
+import WindowHeader from '@/components/winodwHeader';
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
 import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
@@ -105,10 +106,11 @@ const ImgDetailView: NextPage<props> = ({
       zIndex={zIndex}
       onClick={changeZIndex}
     >
-      <WindowTitleWrap onMouseDown={mouseDown}>
-        <WindowTitle>New Folder 1 - {item.name}</WindowTitle>
-        <CLoseButton onClick={closeDetailView} />
-      </WindowTitleWrap>
+      <WindowHeader
+        mouseDown={mouseDown}
+        title={`New Folder 1 - ${item.name}`}
+        closeDetailView={closeDetailView}
+      />
       <ImgView img={item.url}>
         {item.key !== 0 ? <PrevButton onClick={prevImg} /> : <></>}
         {item.key !== folder1ImgData.length - 1 ? (
@@ -152,19 +154,6 @@ const ImgView = styled.div`
   position: relative;
 `;
 
-const CLoseButton = styled.button`
-  width: 16px;
-  height: 16px;
-
-  background-image: url('/image/icon/closeBtn.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  position: absolute;
-  right: 10px;
-`;
-
 const ImgDetailViewContainer = styled.section`
   width: 500px;
   height: 700px;
@@ -181,40 +170,6 @@ const ImgDetailViewContainer = styled.section`
     left: ${x}px;
     z-index: ${zIndex};
   `}
-`;
-
-const WindowTitle = styled.p`
-  font-size: 16px;
-  cursor: default;
-`;
-
-const WindowTitleWrap = styled.div`
-  width: 100%;
-  height: 28px;
-  background-image: url('/image/window/window-header-bg.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-
-  &::before {
-    content: '';
-    width: 100%;
-    height: 20px;
-    position: absolute;
-    left: 0;
-    top: -10px;
-
-    background-image: url('/image/window/window-header-deco.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    border-radius: 20px 20px 0;
-  }
 `;
 
 export default ImgDetailView;

@@ -1,3 +1,4 @@
+import WindowHeader from '@/components/winodwHeader';
 import { folder2ItemData } from '@/docs/folder2Item';
 import { folder2ItemDataType } from '@/interface/folder2ItemData';
 import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
@@ -100,10 +101,11 @@ const Folder2Window: NextPage<props> = ({ closeWindow }: props) => {
         zIndex={zIndex}
         onClick={changeZIndex}
       >
-        <WindowTitleWrap onMouseDown={mouseDown}>
-          <WindowTitle>New Folder 2</WindowTitle>
-          <CLoseButton onClick={closeWindow} />
-        </WindowTitleWrap>
+        <WindowHeader
+          mouseDown={mouseDown}
+          title={`New Folder 2`}
+          closeDetailView={closeDetailView}
+        />
         <ItemsContainer>
           {folder2ItemData.map((videoItem) => (
             <Item
@@ -164,53 +166,6 @@ const ItemsContainer = styled.div`
 
   display: flex;
   align-content: flex-start;
-`;
-
-const CLoseButton = styled.button`
-  width: 16px;
-  height: 16px;
-
-  background-image: url('/image/icon/closeBtn.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  position: absolute;
-  right: 10px;
-`;
-
-const WindowTitle = styled.p`
-  font-size: 16px;
-  cursor: default;
-`;
-
-const WindowTitleWrap = styled.div`
-  width: 100%;
-  height: 28px;
-  background-image: url('/image/window/window-header-bg.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-
-  &::before {
-    content: '';
-    width: 100%;
-    height: 20px;
-    position: absolute;
-    left: 0;
-    top: -10px;
-
-    background-image: url('/image/window/window-header-deco.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    border-radius: 20px 20px 0;
-  }
 `;
 
 const WindowSection = styled.section`

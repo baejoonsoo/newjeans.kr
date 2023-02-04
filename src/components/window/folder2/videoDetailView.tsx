@@ -1,3 +1,4 @@
+import WindowHeader from '@/components/winodwHeader';
 import { folder2ItemDataType } from '@/interface/folder2ItemData';
 import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
 import { css } from '@emotion/react';
@@ -85,10 +86,11 @@ const VideoDetailView: NextPage<props> = ({
       zIndex={zIndex}
       onClick={changeZIndex}
     >
-      <WindowTitleWrap onMouseDown={mouseDown}>
-        <WindowTitle>New Folder 1 - {itemData.name}</WindowTitle>
-        <CLoseButton onClick={closeDetailView} />
-      </WindowTitleWrap>
+      <WindowHeader
+        mouseDown={mouseDown}
+        title={`New Folder 2 - ${itemData.name}`}
+        closeDetailView={closeDetailView}
+      />
       <VideoView>
         <Embed src={`${youtubeURL + itemData.embedId}`} allow="fullscreen" />
       </VideoView>
@@ -105,53 +107,6 @@ const Embed = styled.iframe`
 const VideoView = styled.div`
   width: 100%;
   height: 360px;
-`;
-
-const CLoseButton = styled.button`
-  width: 16px;
-  height: 16px;
-
-  background-image: url('/image/icon/closeBtn.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  position: absolute;
-  right: 10px;
-`;
-
-const WindowTitle = styled.p`
-  font-size: 16px;
-  cursor: default;
-`;
-
-const WindowTitleWrap = styled.div`
-  width: 100%;
-  height: 28px;
-  background-image: url('/image/window/window-header-bg.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-
-  &::before {
-    content: '';
-    width: 100%;
-    height: 20px;
-    position: absolute;
-    left: 0;
-    top: -10px;
-
-    background-image: url('/image/window/window-header-deco.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    border-radius: 20px 20px 0;
-  }
 `;
 
 const VideoDetailViewContainer = styled.section`
