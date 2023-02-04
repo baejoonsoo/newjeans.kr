@@ -1,8 +1,9 @@
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ImgDetailView from './imgDetailView';
 
 interface props {
@@ -10,28 +11,65 @@ interface props {
 }
 
 const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
+  const windowRef = useRef<HTMLDivElement>(null);
   const [isShowDetailView, setIsShowDetailView] = useState<boolean>(false);
   const [itemData, setItemData] = useState<folder1ImgDataType>({
     key: 0,
     name: '',
     url: '',
   });
+  const [point, setPoint] = useState<{ x: number; y: number }>({
+    x: 50,
+    y: 50,
+  });
 
   const changeItemData = (item: folder1ImgDataType) => {
     setItemData(item);
     setIsShowDetailView(true);
-
-    console.log(item);
   };
 
   const closeDetailView = () => {
     setIsShowDetailView(false);
   };
 
+  const mouseDown = (event: any) => {
+    if (!windowRef || !windowRef.current) return null;
+
+    let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
+    let shiftY = event.clientY - windowRef.current.getBoundingClientRect().top;
+
+    const onMouseMove = ({ pageX, pageY }: any) => {
+      setPoint({
+        x: pageX - shiftX,
+        y: pageY - shiftY,
+      });
+    };
+
+    windowRef.current.addEventListener('mousemove', onMouseMove);
+
+    windowRef.current.addEventListener('mouseleave', () => {
+      if (!windowRef || !windowRef.current) return null;
+
+      windowRef.current.removeEventListener('mousemove', onMouseMove);
+      if (windowRef.current) {
+        windowRef.current.onmouseleave = null;
+      }
+    });
+
+    windowRef.current.addEventListener('mouseup', () => {
+      if (!windowRef || !windowRef.current) return null;
+
+      windowRef.current.removeEventListener('mousemove', onMouseMove);
+      if (windowRef.current) {
+        windowRef.current.onmouseup = null;
+      }
+    });
+  };
+
   return (
     <>
-      <WindowSection>
-        <WindowTitleWrap>
+      <WindowSection ref={windowRef} x={point.x} y={point.y}>
+        <WindowTitleWrap onMouseDown={mouseDown}>
           <WindowTitle>New Folder 1</WindowTitle>
           <CLoseButton onClick={closeWindow} />
         </WindowTitleWrap>
@@ -111,6 +149,7 @@ const CLoseButton = styled.button`
 
 const WindowTitle = styled.p`
   font-size: 16px;
+  cursor: default;
 `;
 
 const WindowTitleWrap = styled.div`
@@ -148,8 +187,11 @@ const WindowSection = styled.section`
   background-color: white;
 
   position: absolute;
-  top: 50px;
-  left: 50px;
+
+  ${({ x, y }: { x: number; y: number }) => css`
+    top: ${y}px;
+    left: ${x}px;
+  `}
 `;
 
 export default Folder1Window;

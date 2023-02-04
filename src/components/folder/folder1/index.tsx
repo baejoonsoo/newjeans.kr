@@ -10,7 +10,7 @@ interface props {
 }
 
 const Folder1: NextPage<props> = ({ selected, updateSelected }: props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(!false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onClick = () => {
     updateSelected(selected === 'folder1' ? null : 'folder1');

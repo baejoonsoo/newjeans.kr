@@ -33,4 +33,6 @@ const HomePage = styled.main`
   background-position: center;
 
   position: relative;
+
+  overflow: hidden;
 `;
