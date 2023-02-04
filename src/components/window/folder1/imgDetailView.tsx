@@ -1,9 +1,11 @@
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
+import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 interface props {
   itemData: folder1ImgDataType;
@@ -20,9 +22,16 @@ const ImgDetailView: NextPage<props> = ({
     y: 60,
   });
 
+  const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
+  const [zIndex, setZindex] = useState<number>(zIndexRecoil);
+
   useEffect(() => {
     setItem(itemData);
   }, [itemData]);
+
+  useEffect(() => {
+    setZindexRecoil((pre) => pre + 1);
+  }, []);
 
   const windowRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +47,16 @@ const ImgDetailView: NextPage<props> = ({
     }
   };
 
+  const changeZIndex = () => {
+    if (zIndex === zIndexRecoil - 1) return null;
+
+    setZindex(zIndexRecoil);
+    setZindexRecoil((pre) => pre + 1);
+  };
+
   const mouseDown = (event: any) => {
+    changeZIndex();
+
     if (!windowRef || !windowRef.current) return null;
 
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
@@ -73,7 +91,12 @@ const ImgDetailView: NextPage<props> = ({
   };
 
   return (
-    <ImgDetailViewContainer ref={windowRef} x={point.x} y={point.y}>
+    <ImgDetailViewContainer
+      ref={windowRef}
+      x={point.x}
+      y={point.y}
+      zIndex={zIndex}
+    >
       <WindowTitleWrap onMouseDown={mouseDown}>
         <WindowTitle>New Folder 1 - {item.name}</WindowTitle>
         <CLoseButton onClick={closeDetailView} />
@@ -143,11 +166,11 @@ const ImgDetailViewContainer = styled.section`
   position: absolute;
   top: 60px;
   left: 275px;
-  z-index: 1;
 
-  ${({ x, y }: { x: number; y: number }) => css`
+  ${({ x, y, zIndex }: { x: number; y: number; zIndex: number }) => css`
     top: ${y}px;
     left: ${x}px;
+    z-index: ${zIndex};
   `}
 `;
 

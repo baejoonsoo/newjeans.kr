@@ -1,9 +1,11 @@
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
+import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import ImgDetailView from './imgDetailView';
 
 interface props {
@@ -22,6 +24,13 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
     x: 50,
     y: 50,
   });
+  const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
+  const [zIndex, setZindex] = useState<number>(zIndexRecoil);
+
+  useEffect(() => {
+    console.log('ddd');
+    setZindexRecoil((pre) => pre + 1);
+  }, []);
 
   const changeItemData = (item: folder1ImgDataType) => {
     setItemData(item);
@@ -32,7 +41,14 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
     setIsShowDetailView(false);
   };
 
+  const changeZIndex = () => {
+    if (zIndex === zIndexRecoil - 1) return null;
+    setZindex(zIndexRecoil);
+    setZindexRecoil((pre) => pre + 1);
+  };
+
   const mouseDown = (event: any) => {
+    changeZIndex();
     if (!windowRef || !windowRef.current) return null;
 
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
@@ -68,7 +84,7 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
 
   return (
     <>
-      <WindowSection ref={windowRef} x={point.x} y={point.y}>
+      <WindowSection ref={windowRef} x={point.x} y={point.y} zIndex={zIndex}>
         <WindowTitleWrap onMouseDown={mouseDown}>
           <WindowTitle>New Folder 1</WindowTitle>
           <CLoseButton onClick={closeWindow} />
@@ -188,9 +204,10 @@ const WindowSection = styled.section`
 
   position: absolute;
 
-  ${({ x, y }: { x: number; y: number }) => css`
+  ${({ x, y, zIndex }: { x: number; y: number; zIndex: number }) => css`
     top: ${y}px;
     left: ${x}px;
+    z-index: ${zIndex};
   `}
 `;
 
