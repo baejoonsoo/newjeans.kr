@@ -16,6 +16,7 @@ export default function Home() {
 
   return (
     <HomePage>
+      <Video src="/image/background.mp4" autoPlay loop muted />
       <Header />
       <CameraWidget selected={selected} updateSelected={updateSelected} />
       <SnowmanWidget selected={selected} updateSelected={updateSelected} />
@@ -25,13 +26,19 @@ export default function Home() {
   );
 }
 
-const HomePage = styled.main`
-  background-image: url('/image/background.mp4');
-  height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+const Video = styled.video`
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover;
 
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const HomePage = styled.main`
+  height: 100vh;
   position: relative;
 
   overflow: hidden;
