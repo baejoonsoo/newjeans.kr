@@ -1,8 +1,9 @@
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface props {
   itemData: folder1ImgDataType;
@@ -14,6 +15,16 @@ const ImgDetailView: NextPage<props> = ({
   closeDetailView,
 }: props) => {
   const [item, setItem] = useState<folder1ImgDataType>(itemData);
+  const [point, setPoint] = useState<{ x: number; y: number }>({
+    x: 275,
+    y: 60,
+  });
+
+  useEffect(() => {
+    setItem(itemData);
+  }, [itemData]);
+
+  const windowRef = useRef<HTMLDivElement>(null);
 
   const prevImg = () => {
     if (item.key !== 0) {
@@ -27,9 +38,43 @@ const ImgDetailView: NextPage<props> = ({
     }
   };
 
+  const mouseDown = (event: any) => {
+    if (!windowRef || !windowRef.current) return null;
+
+    let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
+    let shiftY = event.clientY - windowRef.current.getBoundingClientRect().top;
+
+    const onMouseMove = ({ pageX, pageY }: any) => {
+      setPoint({
+        x: pageX - shiftX,
+        y: pageY - shiftY,
+      });
+    };
+
+    windowRef.current.addEventListener('mousemove', onMouseMove);
+
+    windowRef.current.addEventListener('mouseleave', () => {
+      if (!windowRef || !windowRef.current) return null;
+
+      windowRef.current.removeEventListener('mousemove', onMouseMove);
+      if (windowRef.current) {
+        windowRef.current.onmouseleave = null;
+      }
+    });
+
+    windowRef.current.addEventListener('mouseup', () => {
+      if (!windowRef || !windowRef.current) return null;
+
+      windowRef.current.removeEventListener('mousemove', onMouseMove);
+      if (windowRef.current) {
+        windowRef.current.onmouseup = null;
+      }
+    });
+  };
+
   return (
-    <ImgDetailViewContainer>
-      <WindowTitleWrap>
+    <ImgDetailViewContainer ref={windowRef} x={point.x} y={point.y}>
+      <WindowTitleWrap onMouseDown={mouseDown}>
         <WindowTitle>New Folder 1 - {item.name}</WindowTitle>
         <CLoseButton onClick={closeDetailView} />
       </WindowTitleWrap>
@@ -98,10 +143,17 @@ const ImgDetailViewContainer = styled.section`
   position: absolute;
   top: 60px;
   left: 275px;
+  z-index: 1;
+
+  ${({ x, y }: { x: number; y: number }) => css`
+    top: ${y}px;
+    left: ${x}px;
+  `}
 `;
 
 const WindowTitle = styled.p`
   font-size: 16px;
+  cursor: default;
 `;
 
 const WindowTitleWrap = styled.div`
