@@ -33,8 +33,6 @@ const VideoDetailView: NextPage<props> = ({
   };
 
   const mouseDown = (event: any) => {
-    changeZIndex();
-
     if (!windowRef || !windowRef.current) return null;
 
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
@@ -85,6 +83,7 @@ const VideoDetailView: NextPage<props> = ({
       x={point.x}
       y={point.y}
       zIndex={zIndex}
+      onClick={changeZIndex}
     >
       <WindowTitleWrap onMouseDown={mouseDown}>
         <WindowTitle>New Folder 1 - {itemData.name}</WindowTitle>

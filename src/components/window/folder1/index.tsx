@@ -27,10 +27,6 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
   const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
   const [zIndex, setZindex] = useState<number>(zIndexRecoil);
 
-  useEffect(() => {
-    setZindexRecoil((pre) => pre + 1);
-  }, []);
-
   const changeItemData = (item: folder1ImgDataType) => {
     setItemData(item);
     setIsShowDetailView(true);
@@ -47,7 +43,6 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
   };
 
   const mouseDown = (event: any) => {
-    changeZIndex();
     if (!windowRef || !windowRef.current) return null;
 
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
@@ -92,9 +87,19 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
     });
   };
 
+  useEffect(() => {
+    setZindexRecoil((pre) => pre + 1);
+  }, []);
+
   return (
     <>
-      <WindowSection ref={windowRef} x={point.x} y={point.y} zIndex={zIndex}>
+      <WindowSection
+        ref={windowRef}
+        x={point.x}
+        y={point.y}
+        zIndex={zIndex}
+        onClick={changeZIndex}
+      >
         <WindowTitleWrap onMouseDown={mouseDown}>
           <WindowTitle>New Folder 1</WindowTitle>
           <CLoseButton onClick={closeWindow} />

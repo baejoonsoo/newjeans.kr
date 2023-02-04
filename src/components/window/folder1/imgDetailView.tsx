@@ -21,18 +21,8 @@ const ImgDetailView: NextPage<props> = ({
     x: 275,
     y: 60,
   });
-
   const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
   const [zIndex, setZindex] = useState<number>(zIndexRecoil);
-
-  useEffect(() => {
-    setItem(itemData);
-  }, [itemData]);
-
-  useEffect(() => {
-    setZindexRecoil((pre) => pre + 1);
-  }, []);
-
   const windowRef = useRef<HTMLDivElement>(null);
 
   const prevImg = () => {
@@ -55,8 +45,6 @@ const ImgDetailView: NextPage<props> = ({
   };
 
   const mouseDown = (event: any) => {
-    changeZIndex();
-
     if (!windowRef || !windowRef.current) return null;
 
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
@@ -101,12 +89,21 @@ const ImgDetailView: NextPage<props> = ({
     });
   };
 
+  useEffect(() => {
+    setItem(itemData);
+  }, [itemData]);
+
+  useEffect(() => {
+    setZindexRecoil((pre) => pre + 1);
+  }, []);
+
   return (
     <ImgDetailViewContainer
       ref={windowRef}
       x={point.x}
       y={point.y}
       zIndex={zIndex}
+      onClick={changeZIndex}
     >
       <WindowTitleWrap onMouseDown={mouseDown}>
         <WindowTitle>New Folder 1 - {item.name}</WindowTitle>

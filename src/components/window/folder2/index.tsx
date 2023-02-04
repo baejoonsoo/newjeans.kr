@@ -34,7 +34,6 @@ const Folder2Window: NextPage<props> = ({ closeWindow }: props) => {
   };
 
   const mouseDown = (event: any) => {
-    changeZIndex();
     if (!windowRef || !windowRef.current) return null;
 
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
@@ -94,7 +93,13 @@ const Folder2Window: NextPage<props> = ({ closeWindow }: props) => {
 
   return (
     <>
-      <WindowSection ref={windowRef} x={point.x} y={point.y} zIndex={zIndex}>
+      <WindowSection
+        ref={windowRef}
+        x={point.x}
+        y={point.y}
+        zIndex={zIndex}
+        onClick={changeZIndex}
+      >
         <WindowTitleWrap onMouseDown={mouseDown}>
           <WindowTitle>New Folder 2</WindowTitle>
           <CLoseButton onClick={closeWindow} />
