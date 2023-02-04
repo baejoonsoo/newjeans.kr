@@ -80,7 +80,7 @@ const VideoDetailView: NextPage<props> = ({
         <CLoseButton onClick={closeDetailView} />
       </WindowTitleWrap>
       <VideoView>
-        <Embed src={`${youtubeURL + itemData.embedId}`} />
+        <Embed src={`${youtubeURL + itemData.embedId}`} allow="fullscreen" />
       </VideoView>
     </VideoDetailViewContainer>
   );
