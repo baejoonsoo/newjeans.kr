@@ -1,26 +1,21 @@
-import { selectedType } from '@/interface/selected';
+import { widgetSeletedRecoil } from '@/utiles/store/widgetSeleted';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
+import { useRecoilState } from 'recoil';
 
-interface props {
-  selected: selectedType;
-  updateSelected: (newTarget: selectedType) => void;
-}
+const SnowmanWidget: NextPage = () => {
+  const [selected, setSelected] = useRecoilState(widgetSeletedRecoil);
 
-const SnowmanWidget: NextPage<props> = ({
-  selected,
-  updateSelected,
-}: props) => {
   return (
     <WidgetContainerWrap>
       <SelectedWidgetContainer
         selected={selected === 'snowman'}
-        onClick={() => updateSelected(null)}
+        onClick={() => setSelected(null)}
       />
       <UnSelectedWidgetContainer
-        onClick={() => updateSelected('snowman')}
         selected={selected === 'snowman'}
+        onClick={() => setSelected('snowman')}
       />
     </WidgetContainerWrap>
   );
@@ -71,6 +66,7 @@ const SelectedWidgetContainer = styled(WidgetContainer)`
 const WidgetContainerWrap = styled.div`
   width: 343px;
   height: 428px;
+
   position: absolute;
   right: 20px;
   bottom: 20px;

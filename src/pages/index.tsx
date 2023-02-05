@@ -3,25 +3,17 @@ import Folder1 from '@/components/folder/folder1';
 import Folder2 from '@/components/folder/folder2';
 import Header from '@/components/header';
 import SnowmanWidget from '@/components/snowman';
-import { selectedType } from '@/interface/selected';
 import styled from '@emotion/styled';
-import { useState } from 'react';
 
 export default function Home() {
-  const [selected, setSelected] = useState<selectedType>(null);
-
-  const updateSelected = (newTarget: selectedType) => {
-    setSelected(newTarget);
-  };
-
   return (
     <HomePage>
       {/* <Video src="/image/background.mp4" autoPlay loop muted /> */}
       <Header />
-      <CameraWidget selected={selected} updateSelected={updateSelected} />
-      <SnowmanWidget selected={selected} updateSelected={updateSelected} />
-      <Folder1 selected={selected} updateSelected={updateSelected} />
-      <Folder2 selected={selected} updateSelected={updateSelected} />
+      <CameraWidget />
+      <SnowmanWidget />
+      <Folder1 />
+      <Folder2 />
     </HomePage>
   );
 }

@@ -1,17 +1,14 @@
 import Folder1Window from '@/components/window/folder1';
-import { selectedType } from '@/interface/selected';
+import { widgetSeletedRecoil } from '@/utiles/store/widgetSeleted';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-interface props {
-  selected: selectedType;
-  updateSelected: (newTarget: selectedType) => void;
-}
-
-const Folder1: NextPage<props> = ({ selected, updateSelected }: props) => {
+const Folder1: NextPage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useRecoilState(widgetSeletedRecoil);
 
   const openWindow = () => {
     setIsOpen(true);
@@ -26,11 +23,11 @@ const Folder1: NextPage<props> = ({ selected, updateSelected }: props) => {
       <WidgetContainerWrap onDoubleClick={openWindow}>
         <SelectedWidgetContainer
           selected={selected === 'folder1'}
-          onClick={() => updateSelected(null)}
+          onClick={() => setSelected(null)}
         />
         <UnSelectedWidgetContainer
-          onClick={() => updateSelected('folder1')}
           selected={selected === 'folder1'}
+          onClick={() => setSelected('folder1')}
         />
       </WidgetContainerWrap>
       {isOpen ? <Folder1Window closeWindow={closeWindow} /> : <></>}
@@ -84,6 +81,7 @@ const SelectedWidgetContainer = styled(WidgetContainer)`
 const WidgetContainerWrap = styled.div`
   width: 106px;
   height: 108px;
+
   position: absolute;
   right: 50px;
   top: 88px;
