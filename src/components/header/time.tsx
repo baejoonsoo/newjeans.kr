@@ -10,8 +10,9 @@ const Time: NextPage = () => {
   const [isAM, setIsAM] = useState<boolean>(true);
 
   const getDate = () => {
-    const date = new Date().toString().slice(0, 8).toUpperCase();
-    const day = Number(new Date().toString().slice(8, 10));
+    const dateStr = new Date().toString();
+    const date = dateStr.slice(0, 8).toUpperCase();
+    const day = Number(dateStr.slice(8, 10));
 
     setDate(date + day);
   };
@@ -24,7 +25,7 @@ const Time: NextPage = () => {
 
     const hour = newDate.getHours();
 
-    if (hour === 1) {
+    if (hour === 0) {
       getDate();
     }
 
