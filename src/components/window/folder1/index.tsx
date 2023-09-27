@@ -1,7 +1,7 @@
 import WindowHeader from '@/components/winodwHeader';
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
-import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
+import { windowZIndexRecoil } from '@/utils/store/windowZIndex';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
@@ -25,6 +25,7 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
     x: 50,
     y: 50,
   });
+
   const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
   const [zIndex, setZindex] = useState<number>(zIndexRecoil);
 
@@ -67,24 +68,16 @@ const Folder1Window: NextPage<props> = ({ closeWindow }: props) => {
       setPoint({ x, y });
     };
 
-    windowRef.current.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove);
 
-    windowRef.current.addEventListener('mouseleave', () => {
-      if (!windowRef || !windowRef.current) return null;
-
-      windowRef.current.removeEventListener('mousemove', onMouseMove);
-      if (windowRef.current) {
-        windowRef.current.onmouseleave = null;
-      }
+    window.addEventListener('mouseleave', () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.onmouseleave = null;
     });
 
-    windowRef.current.addEventListener('mouseup', () => {
-      if (!windowRef || !windowRef.current) return null;
-
-      windowRef.current.removeEventListener('mousemove', onMouseMove);
-      if (windowRef.current) {
-        windowRef.current.onmouseup = null;
-      }
+    window.addEventListener('mouseup', () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.onmouseup = null;
     });
   };
 

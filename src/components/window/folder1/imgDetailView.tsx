@@ -69,30 +69,18 @@ const ImgDetailView: NextPage<props> = ({
       setPoint({ x, y });
     };
 
-    windowRef.current.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove);
 
-    windowRef.current.addEventListener('mouseleave', () => {
-      if (!windowRef || !windowRef.current) return null;
-
-      windowRef.current.removeEventListener('mousemove', onMouseMove);
-      if (windowRef.current) {
-        windowRef.current.onmouseleave = null;
-      }
+    window.addEventListener('mouseleave', () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.onmouseleave = null;
     });
 
-    windowRef.current.addEventListener('mouseup', () => {
-      if (!windowRef || !windowRef.current) return null;
-
-      windowRef.current.removeEventListener('mousemove', onMouseMove);
-      if (windowRef.current) {
-        windowRef.current.onmouseup = null;
-      }
+    window.addEventListener('mouseup', () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.onmouseup = null;
     });
   };
-
-  useEffect(() => {
-    setItem(itemData);
-  }, [itemData]);
 
   useEffect(() => {
     setZindexRecoil((pre) => pre + 1);
