@@ -25,6 +25,7 @@ const VideoDetailView: NextPage<props> = ({
   const [zIndexRecoil, setZindexRecoil] = useRecoilState(windowZIndexRecoil);
   const [zIndex, setZindex] = useState<number>(zIndexRecoil);
   const windowRef = useRef<HTMLDivElement>(null);
+  const [isMove, setIsMove] = useState<boolean>(false);
 
   const changeZIndex = () => {
     if (zIndex === zIndexRecoil - 1) return null;
@@ -36,6 +37,7 @@ const VideoDetailView: NextPage<props> = ({
   const mouseDown = (event: any) => {
     if (!windowRef || !windowRef.current) return null;
 
+    setIsMove(true);
     let shiftX = event.clientX - windowRef.current.getBoundingClientRect().left;
     let shiftY = event.clientY - windowRef.current.getBoundingClientRect().top;
 
@@ -61,11 +63,13 @@ const VideoDetailView: NextPage<props> = ({
 
     window.addEventListener('mouseleave', () => {
       window.removeEventListener('mousemove', onMouseMove);
+      setIsMove(false);
       window.onmouseleave = null;
     });
 
     window.addEventListener('mouseup', () => {
       window.removeEventListener('mousemove', onMouseMove);
+      setIsMove(false);
       window.onmouseup = null;
     });
   };
@@ -85,10 +89,19 @@ const VideoDetailView: NextPage<props> = ({
       />
       <VideoView>
         <Embed src={`${youtubeURL + itemData.embedId}`} allow="fullscreen" />
+        {isMove ? <DragBox /> : <></>}
       </VideoView>
     </VideoDetailViewContainer>
   );
 };
+
+const DragBox = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
 
 const Embed = styled.iframe`
   width: 100%;
@@ -99,6 +112,7 @@ const Embed = styled.iframe`
 const VideoView = styled.div`
   width: 100%;
   height: 360px;
+  position: relative;
 `;
 
 const VideoDetailViewContainer = styled.section`
