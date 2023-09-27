@@ -1,5 +1,5 @@
 import Folder2Window from '@/components/window/folder2';
-import { widgetSeletedRecoil } from '@/utiles/store/widgetSeleted';
+import { widgetSeletedRecoil } from '@/utils/store/widgetSeleted';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';

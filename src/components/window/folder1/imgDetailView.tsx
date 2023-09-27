@@ -1,7 +1,7 @@
 import WindowHeader from '@/components/winodwHeader';
 import { folder1ImgData } from '@/docs/folder1Img';
 import { folder1ImgDataType } from '@/interface/folder1ImgData';
-import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
+import { windowZIndexRecoil } from '@/utils/store/windowZIndex';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';

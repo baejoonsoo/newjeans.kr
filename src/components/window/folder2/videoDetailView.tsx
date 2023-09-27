@@ -1,6 +1,6 @@
 import WindowHeader from '@/components/winodwHeader';
 import { folder2ItemDataType } from '@/interface/folder2ItemData';
-import { windowZIndexRecoil } from '@/utiles/store/windowZIndex';
+import { windowZIndexRecoil } from '@/utils/store/windowZIndex';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
